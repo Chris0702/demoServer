@@ -1,0 +1,45 @@
+#title-block{
+	height: 6%;
+	background: #000000;
+	border-radius:10px;
+}
+
+#title-name{
+	color:#FFFFFF;
+	height: 6%;
+	text-align:center;
+	line-height:300%;
+	font-size: 100%
+}
+
+#title-introduction{
+	color:#FFFFFF;
+	height: 6%;
+	text-align:center;
+	line-height:300%;
+	font-size: 150%
+}
+
+#title-merge{
+	color:#FFFFFF;
+	height: 6%;
+	text-align:center;
+	line-height:300%;
+	font-size: 150%
+}
+
+#title-upload{
+	color:#FFFFFF;
+	height: 6%;
+	line-height:300%;
+	font-size: 150%
+}
+
+#content{
+	height: 90%;
+}
+
+#web{
+	height: 100%;
+	width: 100%;
+}

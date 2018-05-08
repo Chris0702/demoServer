@@ -1,0 +1,28 @@
+#title-block{
+	height: 60px;
+	background: #000000;
+	border-radius:10px;
+}
+
+.title-box{
+	color:#FFFFFF;
+	height: 60px;
+	width: 200px;
+	text-align:center;
+	line-height:60px;
+	font-size: 25px;
+	display:inline;
+	margin-left:20px;
+	background: transparent;
+	border-color: transparent;
+
+}
+
+#content{
+	height: 90%;
+}
+
+#web{
+	height: 100%;
+	width: 100%;
+}
