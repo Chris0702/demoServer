@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+	<head>
+    	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	</head>
+	<body>
+		上傳圖片
+		<!-- <form class="text-center" action="/file/uploadImage" method="post" enctype="multipart/form-data">
+        <div class="kv-avatar center-block" style="width:200px">
+            <input id="fileinput" name="fileinput" type="file" class="file-loading">
+        </div>
+    </form> -->
+    	<form id        =  "uploadForm"
+     	enctype   =  "multipart/form-data"
+     	action    =  "/file/uploadMergeImage"
+     	method    =  "post"
+		>
+		<!-- <input type="file" name="importWidgetFile" > -->
+		<input type="file" name="uploadImage" >
+		<input type="submit" value="Upload Image" name="submit">
+		</form>
+	</body>
+</html>

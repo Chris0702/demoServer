@@ -8,6 +8,6 @@ $(document).ready(function() {
         document.getElementById("web").src = "/mergeImage";
     });
     $('#title-upload').click(function(e) {
-        document.getElementById("web").src = "/uploadImage";
+        document.getElementById("web").src = "/uploadMergeImage";
     });
 });

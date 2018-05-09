@@ -3,6 +3,7 @@ var app = express();
 
 var webRouter = require("./lib/web_router");
 var userRestApi = require("./lib/rest_api/user");
+var fileRestApi = require("./lib/rest_api/file");
 var chatSocket = require("./lib/chat_socket");
 var dataBaseInit = require("./lib/dataBaseInit");
 var config = require('./lib/config').config;
@@ -17,6 +18,7 @@ dataBaseInit.mongoDBInit(mongoDBPort,mongoDBName);
 serverUse.on(app);
 webRouter.on(app);
 userRestApi.on(app);
+fileRestApi.on(app);
 chatSocket.on(app,server);
 server.listen(serverPort);
 console.log("現在使用" + serverPort + "port");
