@@ -14,11 +14,12 @@ var server = require('http').createServer(app);
 var serverUse=require('./lib/serverUse');
 let path = require('path');
 
-dataBaseInit.mongoDBInit(mongoDBPort,mongoDBName);
+// dataBaseInit.mongoDBInit(mongoDBPort,mongoDBName);
 serverUse.on(app);
 webRouter.on(app);
 userRestApi.on(app);
 fileRestApi.on(app);
 chatSocket.on(app,server);
-server.listen(serverPort);
+server.listen(process.env.PORT||serverPort);
+console.log("iis 現在使用" + process.env.PORT + " port");
 console.log("現在使用" + serverPort + "port");
