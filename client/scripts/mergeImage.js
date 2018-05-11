@@ -13,8 +13,11 @@ $(document).ready(function() {
 function initButton() {
     $('#nextStep').click(function(e) {
         console.log('nextStep   click')
-        step++;
-        if (step >= 2) {
+        if (step == 0){
+        	$('#nextStep').html('開始合併');
+        	step++;
+        }
+        else if (step >= 1) {
             console.log("send")
             console.log(mergeImgArr)
             console.log(targetImg)
@@ -32,6 +35,7 @@ function initButton() {
                     alert(res);
                 }
             });
+            step=0;
         }
     })
 }
@@ -82,6 +86,9 @@ function imageClickInit() {
         console.log('click!!!!!')
         // console.log(e)
         var imgId = jQuery(this).attr("id");
+		// $('#'+imgId).attr('background','#cccccc')        
+        // "box-shadow:3px 3px 5px 6px #cccccc;"
+
         if (step == 0) {
             mergeImgArr.push(imgId);
         } else if (step == 1) {
