@@ -1,27 +1,44 @@
 console.log("js mergeImage init");
 
 var mergeImgArr = [];
-var targetImg = [];
+var targetImg = '';
 var step = 0;
+var clickColor = "#aaaaaa";
+var normalColor = "#ffffff";
+
+
 
 $(document).ready(function() {
+    initQuestion()
     initImage()
     initButton()
-
 });
+
+function initQuestion() {
+    $('#question').html('請選擇多張圖片作為基底');
+}
 
 function initButton() {
     $('#nextStep').click(function(e) {
+        $('.mergeImage').attr('value') == '';
+        $('.mergeImage').parent().css('background-color', normalColor);
         console.log('nextStep   click')
-        if (step == 0){
-        	$('#nextStep').html('開始合併');
-        	step++;
-        }
-        else if (step >= 1) {
+        if (step == 0) {
+            if (mergeImgArr.length <= 0) {
+                alert("請選擇自少一張圖片");
+            } else {
+                $('#question').html('請選擇欲合成的圖片');
+                $('#nextStep').html('開始合併');
+                step++;
+            }
+        } else if (step >= 1) {
             console.log("send")
             console.log(mergeImgArr)
             console.log(targetImg)
-            $.ajax({
+            if(targetImg==''){
+            	 alert("請選擇欲合成的圖片");
+            }else{
+            	 $.ajax({
                 url: '/exe/mergeImage',
                 type: 'POST',
                 data: {
@@ -35,7 +52,8 @@ function initButton() {
                     alert(res);
                 }
             });
-            step=0;
+            step = 0;
+            }
         }
     })
 }
@@ -76,26 +94,39 @@ function createImgBlock(imgSrc, blockIndex) {
         src: '/' + imgSrc,
         width: '200px',
         height: '150px',
-        class: 'mergeImage'
+        class: 'mergeImage',
+        value: ''
     }).appendTo($('#' + imgBlockId));
 
 }
 
 function imageClickInit() {
     $('.mergeImage').click(function(e) {
-        console.log('click!!!!!')
-        // console.log(e)
         var imgId = jQuery(this).attr("id");
-		// $('#'+imgId).attr('background','#cccccc')        
-        // "box-shadow:3px 3px 5px 6px #cccccc;"
-
         if (step == 0) {
-            mergeImgArr.push(imgId);
+            if (jQuery(this).attr('value') == '') {
+                jQuery(this).attr('value', 'click');
+                jQuery(this).parent().css('background-color', clickColor);
+            } else {
+                jQuery(this).attr('value', '');
+                jQuery(this).parent().css('background-color', normalColor);
+            }
+            var isPush = false;
+            for (var i = 0; i < mergeImgArr.length; i++) {
+                if (mergeImgArr[i] == imgId) {
+                    mergeImgArr.splice(i, 1)
+                    isPush = true;
+                    break;
+                }
+            }
+            if (isPush == false) {
+                mergeImgArr.push(imgId);
+            }
         } else if (step == 1) {
+            $('.mergeImage').parent().css('background-color', normalColor);
+            jQuery(this).parent().css('background-color', clickColor);
             targetImg = imgId
-
         }
-        // alert(contentPanelId);
         console.log(mergeImgArr)
         console.log(targetImg)
     })
