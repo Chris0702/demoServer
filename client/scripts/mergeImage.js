@@ -5,7 +5,7 @@ var targetImg = '';
 var step = 0;
 var clickColor = "#aaaaaa";
 var normalColor = "#ffffff";
-
+var resultPath = '';
 
 
 $(document).ready(function() {
@@ -22,7 +22,7 @@ function initButton() {
     $('#nextStep').click(function(e) {
         $('.mergeImage').attr('value') == '';
         $('.mergeImage').parent().css('background-color', normalColor);
-        console.log('nextStep   click')
+        // console.log('nextStep   click')
         if (step == 0) {
             if (mergeImgArr.length <= 0) {
                 alert("請選擇自少一張圖片");
@@ -32,32 +32,81 @@ function initButton() {
                 step++;
             }
         } else if (step >= 1) {
-            console.log("send")
-            console.log(mergeImgArr)
-            console.log(targetImg)
-            if(targetImg==''){
-            	 alert("請選擇欲合成的圖片");
-            }else{
-            	 $.ajax({
-                url: '/exe/mergeImage',
-                type: 'POST',
-                data: {
-                    mergeImgArr: mergeImgArr,
-                    targetImg: targetImg
-                },
-                error: function(xhr) {
-                    alert('button error');
-                },
-                success: function(res) {
-                    alert(res);
-                }
-            });
-            step = 0;
+            // console.log("send")
+            // console.log(mergeImgArr)
+            // console.log(targetImg)
+            if (targetImg == '') {
+                alert("請選擇欲合成的圖片");
+            } else {
+                $.ajax({
+                    url: '/exe/mergeImage',
+                    type: 'POST',
+                    data: {
+                        mergeImgArr: mergeImgArr,
+                        targetImg: targetImg
+                    },
+                    error: function(xhr) {
+                        alert('connect error');
+                    },
+                    success: function(res) {
+                        res = JSON.parse(res);
+                        if (res.resStatus == 0) {
+                            showMergeImage(res.resString);
+                            addDownloadBtn();
+                        } else {
+                            alert('merge error');
+                        }
+                    }
+                });
+                step = 0;
             }
         }
     })
 }
 
+function addDownloadBtn() {
+    $('<div/>', {
+        class: 'col-md-3'
+    }).appendTo($('#content'));
+    var button = $('<button/>', {
+        id: 'downloadResult',
+        class: 'col-md-6 btn btn-success'
+    }).appendTo($('#content'));;
+    $('#downloadResult').html('DOWNLOAD');
+    $('#downloadResult').click(function(e) {
+        downloadImage(resultPath);
+    })
+    $('<div/>', {
+        class: 'col-md-3'
+    }).appendTo($('#content'));
+}
+
+function downloadImage(src) {
+    src = '/' + src;
+    // console.log('============src=============');
+    // console.log(src)
+    // console.log('=========================');
+    var $a = $("<a></a>").attr("href", src).attr("download", src);
+    $a[0].click();
+}
+
+function showMergeImage(imgSrc) {
+    resultPath = imgSrc;
+    $('#content').children().remove();
+    $('#question').remove();
+    $('#next').remove();
+    imgBlockId = 'mergeImageResultBlock';
+    var div = $('<div/>', {
+        id: imgBlockId,
+        class: 'thumbnail col-md-12'
+    }).appendTo($('#content'));;
+    var img = $('<img />', {
+        id: imgSrc,
+        src: '/' + imgSrc,
+        class: 'mergeImage',
+        value: ''
+    }).appendTo($('#' + imgBlockId));
+}
 
 function initImage() {
     $.ajax({
@@ -70,8 +119,8 @@ function initImage() {
             alert('圖片讀取錯誤，請重新載入');
         },
         success: function(imgArr) {
-            console.log('success       imgArr  ')
-            console.log(imgArr)
+            // console.log('success       imgArr  ')
+            // console.log(imgArr)
             for (i in imgArr) {
                 createImgBlock(imgArr[i], i)
 
@@ -92,8 +141,8 @@ function createImgBlock(imgSrc, blockIndex) {
     var img = $('<img />', {
         id: imgSrc,
         src: '/' + imgSrc,
-        width: '200px',
-        height: '150px',
+        width: '150px',
+        height: '200px',
         class: 'mergeImage',
         value: ''
     }).appendTo($('#' + imgBlockId));
@@ -127,7 +176,7 @@ function imageClickInit() {
             jQuery(this).parent().css('background-color', clickColor);
             targetImg = imgId
         }
-        console.log(mergeImgArr)
-        console.log(targetImg)
+        // console.log(mergeImgArr)
+        // console.log(targetImg)
     })
 }
